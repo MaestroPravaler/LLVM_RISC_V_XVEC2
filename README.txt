@@ -1,18 +1,50 @@
-Low Level Virtual Machine (LLVM)
-================================
+// =========================================================
+// PROJETO PILOTO (RISCVXVEC2)
+// =========================================================
 
-This directory and its subdirectories contain source code for LLVM,
-a toolkit for the construction of highly optimized compilers,
-optimizers, and runtime environments.
+01) - COMPILAR COM O CLANG
 
-LLVM is open source software. You may freely distribute it under the terms of
-the license agreement found in LICENSE.txt.
+ 	~/riscvxvec2/build/bin/./clang -c -emit-llvm ~/riscvxvec2/build/testes/teste_llvm.c -o ~/riscvxvec2/build/testes/teste_llvm.ir
 
-Please see the documentation provided in docs/ for further
-assistance with LLVM, and in particular docs/GettingStarted.rst for getting
-started with LLVM and docs/README.txt for an overview of LLVM's
-documentation setup.
+	1.1) - Exibir o IR criado
 
-If you are writing a package for LLVM, see docs/Packaging.rst for our
-suggestions.
+ 		~/riscvxvec2/build/bin/./opt --view-cfg ~/riscvxvec2/build/testes/teste_llvm.ir
 
+02) - REALIZAR OTIMIZAÇÕES PERSONALIZADAS
+
+	opt [options] [filename]
+
+03) - SUGESTÃO PARA PARSE DE VETORIZAÇÃOO (SLP VECTORIZER)
+
+	3.1) - Processo para criar a IR
+		$ clang ... -fno-vectorize  file.c
+
+	3.2) - otimizações na anteriores a IR e Posteriores opt
+		$ clang  -mllvm -force-vector-width=8 ...
+		$ opt -loop-vectorize -force-vector-width=8 ...
+
+		$ clang  -mllvm -force-vector-interleave=2 ...
+		$ opt -loop-vectorize -force-vector-interleave=2 ...
+
+
+04) - LISTAR AS ARQUITETURAS INSTALADAS
+
+		~/riscvxvec2/build/bin/./llc --version
+
+05) - COMPILAR PARA A ARQUITETURA ESCOLHIDA
+
+		~/riscvxvec2/build/bin/./llc --march=riscvxvec32 ~/riscvxvec2/build/testes/teste_llvm.ir
+
+// =========================================================
+// PROJETO ALTERNATIVO (RISCVXVEC) - IMPRESSORA MSP430
+// =========================================================
+
+Mesmos comandos contudo substituir riscvxvec2 por riscvxvec
+
+04) - LISTAR AS ARQUITETURAS INSTALADAS
+
+		~/riscvxvec/build/bin/./llc --version
+
+05) - COMPILAR PARA A ARQUITETURA ESCOLHIDA
+
+~/riscvxvec/build/bin/./llc --march=riscvxvec2 ~/riscvxvec/build/testes/teste_llvm.ir
